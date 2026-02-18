@@ -1,37 +1,15 @@
 [Adblock Plus 2.0]
 ! Title: Personal Cosmetic Filter
-! Description: Reddit ads, YouTube Shorts, YouTube Music Mixes, and general web annoyances
-! Version: 1.14
-! Last modified: 2025-09-16
+! Description: Blocks Reddit, YouTube Shorts/Mixes, Google auto-login popups, Amazon sponsored listings, social media promoted posts, chat widgets, and common ad/tracking domains
+! Version: 1.15
+! Last modified: 2026-02-18
 
 ! ========================================
 ! REDDIT - ADS & ANNOYANCES
 ! ========================================
 
-! Reddit Complete Block Filter for Vivaldi
-||reddit.com^
-||www.reddit.com^
-||old.reddit.com^
-||new.reddit.com^
-||m.reddit.com^
-||amp.reddit.com^
-||redd.it^
-||reddithelp.com^
-||redditstatic.com^
-||redditmedia.com^
-||reddit.map.fastly.net^
-||redditinc.com^
-|https://www.reddit.com
-|http://www.reddit.com
-|https://reddit.com
-|http://reddit.com
-|https://old.reddit.com
-|http://old.reddit.com
-##a[href*="reddit.com"]
-##a[href*="redd.it"]
-
 ! Reddit Complete Block Filter
-! Basic domain blocking with important priority
+! Domain blocking with important priority
 ||reddit.com^$important
 ||www.reddit.com^$important
 ||old.reddit.com^$important
@@ -129,7 +107,7 @@ old.reddit.com##[id*="siteTable_organic"]
 ! Generic Reddit ad selectors
 reddit.com##[class*="promoted"]:not([class*="non-promoted"])
 reddit.com##[id*="promoted"]
-reddit.com##[data-*="promoted"]
+reddit.com##[data-promoted]
 reddit.com##[href*="ads.reddit.com"]
 
 ! Remove elements with ad-related text content
@@ -156,9 +134,6 @@ m.youtube.com##ytm-slim-video-action-bar-renderer ytm-button-renderer div[class$
 
 ! Hide chat window when viewing streams
 www.youtube.com###chat:remove()
-
-! Hide "Shorts remixing this video" shelf in the description
-www.youtube.com##ytd-reel-shelf-renderer
 
 ! Hide View Products
 www.youtube.com##.ytp-suggested-action-badge-expanded
@@ -247,67 +222,41 @@ m.youtube.com##[tab-title="Shorts"]
 ! ========================================
 ! GENERAL WEB ANNOYANCES
 ! ========================================
+! NOTE: For cookie/GDPR banners, use the "AdGuard Annoyances" or
+! "EasyList Cookie" filter lists instead of broad wildcard selectors.
+! The rules below target specific known widgets.
 
-! Cookie consent banners
-##[id*="cookie"]:not([id*="facebook"])
-##[class*="cookie"]:not([class*="facebook"])
-##[id*="consent"]
-##[class*="consent"]
-##[class*="gdpr"]
-##[id*="gdpr"]
-##.cookie-banner
-##.consent-banner
-##[data-testid*="cookie"]
+! Intercom chat widget
+##[id*="intercom-container"]
+##.intercom-lightweight-app
 
-! Chat widgets and support bubbles
-##[class*="support-widget"]
-##[id*="intercom"]
-##[class*="intercom"]
-##[id*="zendesk"]
-##[class*="zendesk"]
-##[class*="chat-bubble"]
-##[class*="help-widget"]
+! Zendesk chat widget
+##[id*="zendesk"][id*="launcher"]
+##iframe[id*="launcher"][title*="chat"]
 
-! Social media share widgets
-##[class*="social-share"]
-##[class*="share-buttons"]
-##[id*="social-share"]
-##[class*="addthis"]
-##[class*="sharethis"]
+! Drift chat widget
+##[id="drift-widget-container"]
 
-! App download prompts
-##[class*="app-banner"]
-##[id*="app-banner"]
-##[class*="mobile-app"]
-##[class*="download-app"]
-##[data-testid*="app-banner"]
+! Crisp chat widget
+##[class*="crisp-client"]
+
+! HubSpot chat widget
+##[id="hubspot-messages-iframe-container"]
+
+! Newsletter and email signup popups
+##[class*="newsletter-popup"]
+##[class*="newsletter-modal"]
+##[class*="email-signup-modal"]
+##[class*="subscribe-modal"]
 
 ! Notification permission prompts
 ##[class*="notification-prompt"]
 ##[class*="push-notification"]
-##[id*="notification-permission"]
-
-! Rating and review prompts
-##[class*="rating-prompt"]
-##[class*="review-prompt"]
-##[id*="rating-modal"]
-##[class*="feedback-modal"]
-
-! Privacy policy and terms popups
-##[class*="privacy-notice"]
-##[class*="terms-popup"]
-##[id*="privacy-banner"]
-
-! Video autoplay overlays
-##[class*="autoplay-overlay"]
-##[class*="video-overlay"]
-##[id*="video-prompt"]
 
 ! Survey and feedback widgets
-##[class*="survey-widget"]
-##[class*="feedback-widget"]
-##[id*="survey-popup"]
-##[class*="user-survey"]
+##[id*="survicate"]
+##[id*="hotjar"]
+##[class*="qualaroo"]
 
 ! ========================================
 ! PERFORMANCE & PRIVACY
@@ -318,37 +267,62 @@ m.youtube.com##[tab-title="Shorts"]
 ||googleadservices.com^
 ||googlesyndication.com^
 ||amazon-adsystem.com^
+
+! Block tracking pixels and analytics
 ||facebook.com/tr^
+||connect.facebook.net^$third-party
 ||google-analytics.com^
 ||googletagmanager.com^
+||bat.bing.com^
+||clarity.ms^
+||hotjar.com^$third-party
+||static.hotjar.com^$third-party
+||segment.io^$third-party
+||segment.com^$third-party
+||cdn.segment.com^$third-party
+||api.segment.io^$third-party
+||mixpanel.com^$third-party
+||cdn.mxpnl.com^$third-party
+||sentry.io^$third-party
 
 ! ========================================
 ! SITE SPECIFIC ANNOYANCES
 ! ========================================
 
 ! Twitter/X promoted content
-twitter.com##[data-testid="tweet"]:has([data-testid="promotedIndicator"])
-x.com##[data-testid="tweet"]:has([data-testid="promotedIndicator"])
-twitter.com##[data-testid="placementTracking"]
+x.com##[data-testid="cellInnerDiv"]:has([data-testid="promotedIndicator"])
 x.com##[data-testid="placementTracking"]
 
 ! LinkedIn promoted posts
-linkedin.com##[data-urn*="sponsoredUpdate"]
-linkedin.com##.feed-shared-update-v2:has([data-urn*="sponsoredUpdate"])
+linkedin.com##.feed-shared-update-v2:has(.update-components-actor__description:has-text(/Promoted/))
+linkedin.com##main .feed-shared-update-v2:has(span:has-text(/^Promoted$/))
 
 ! Facebook sponsored posts
-facebook.com##[data-pagelet="FeedUnit_0"]:has([data-testid="story-subtitle"]:has-text(/Sponsored/i))
-facebook.com##[role="article"]:has([aria-label*="Sponsored"])
+! NOTE: Facebook's DOM changes frequently; these may need updating
+facebook.com##[role="article"]:has(a[aria-label="Sponsored"] , a[href*="ad_id="])
+facebook.com##[role="feed"] div:has(> [data-pagelet^="FeedUnit"]):has(a[aria-label="Sponsored"])
 
 ! Instagram sponsored posts
-instagram.com##article:has([data-testid="sponsored-post"])
-instagram.com##[data-testid="story-item"]:has([data-testid="sponsored-label"])
+! NOTE: Instagram's DOM changes frequently; these may need updating
+instagram.com##article:has(span:has-text(/^Sponsored$/))
+instagram.com##div[role="presentation"]:has(span:has-text(/^Sponsored$/))
 
-! News sites - common annoyances
-##[class*="paywall"]
-##[class*="subscription-wall"]
-##[class*="premium-content"]
-##[class*="article-limit"]
+! Amazon sponsored product listings
+amazon.com##.s-result-item:has(span:has-text(/^Sponsored$/))
+amazon.com##.s-result-item[data-component-type="sp-sponsored-result"]
+amazon.com##div[data-component-type="sp-sponsored-result"]
+! Amazon search top/bottom banner ads
+amazon.com##.AdHolder
+amazon.com##div[data-component-type="s-impression-counter"]
+! Amazon product page sponsored recommendations
+amazon.com##div[cel_widget_id*="sp-sponsored"]
+amazon.com###sp_detail
+amazon.com###sp_detail2
+amazon.com##div[data-component-type="sp-sponsored-result"][data-cel-widget*="search"]
+! Amazon "Brands related to this category"
+amazon.com##div[cel_widget_id*="brand-carousel"]
+! Amazon "Highly rated" sponsored shelves
+amazon.com##div[cel_widget_id*="MAIN-FEATURED_ASINS"]
 
 ! ========================================
 ! TARGETED GOOGLE AUTO-LOGIN POPUP BLOCKING
