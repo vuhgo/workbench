@@ -1,0 +1,284 @@
+! Title: Personal Cosmetic Filter
+! Description: Reddit ads, YouTube Shorts, YouTube Music Mixes, and general web annoyances
+! Version: 1.14
+! Last modified: 2025-09-16
+
+! ========================================
+! REDDIT - ADS & ANNOYANCES
+! ========================================
+
+! Reddit Complete Block Filter for Vivaldi
+||reddit.com^
+||www.reddit.com^
+||old.reddit.com^
+||new.reddit.com^
+||m.reddit.com^
+||amp.reddit.com^
+||redd.it^
+||reddithelp.com^
+||redditstatic.com^
+||redditmedia.com^
+||reddit.map.fastly.net^
+||redditinc.com^
+|https://www.reddit.com
+|http://www.reddit.com
+|https://reddit.com
+|http://reddit.com
+|https://old.reddit.com
+|http://old.reddit.com
+##a[href*="reddit.com"]
+##a[href*="redd.it"]
+
+! Reddit Complete Block Filter
+! Basic domain blocking with important priority
+||reddit.com^$important
+||www.reddit.com^$important
+||old.reddit.com^$important
+||new.reddit.com^$important
+||m.reddit.com^$important
+||amp.reddit.com^$important
+||redd.it^$important
+
+! Document-level blocking (prevents page loading)
+||reddit.com^$document,important
+||www.reddit.com^$document,important
+
+! Reddit-related domains and CDNs
+||reddithelp.com^$important
+||redditstatic.com^$important
+||redditmedia.com^$important
+||reddit.map.fastly.net^$important
+||redditinc.com^$important
+
+! Full URL blocking (backup method)
+|https://www.reddit.com
+|http://www.reddit.com
+|https://reddit.com
+|http://reddit.com
+|https://old.reddit.com
+|http://old.reddit.com
+
+! Hide Reddit links in search results
+##a[href*="reddit.com"]
+##a[href*="redd.it"]
+
+! Block Reddit app deep links
+||reddit.com^$app
+||www.reddit.com^$app
+
+! Promoted posts in feed
+reddit.com##[data-testid="post-container"]:has([data-click-id="promoted"])
+reddit.com##[data-promoted="true"]
+reddit.com##.promotedlink
+reddit.com##[data-type="promoted"]
+
+! Sponsored content markers
+reddit.com##.promoted-tag
+reddit.com##[data-testid="post-container"]:has-text(/promoted/i)
+reddit.com##[data-testid="post-container"]:has-text(/sponsored/i)
+
+! Reddit Premium prompts
+reddit.com##[data-testid="premium-banner"]
+reddit.com##.premium-banner-large
+reddit.com##[data-testid="premium-upsell"]
+
+! Sidebar ads
+reddit.com##[data-testid="subreddit-sidebar"] [data-testid="promoted-post"]
+reddit.com##.side-container .promoted
+
+! Mobile ads
+reddit.com##[data-testid="post-container"]:has([data-adclicklocation])
+reddit.com##.Post:has([data-promoted])
+
+! Cookie banner
+reddit.com##[data-testid="cookie-banner"]
+reddit.com##.cookie-banner
+
+! App download prompts
+reddit.com##[data-testid="app-banner"]
+reddit.com##.app-banner
+reddit.com##[data-testid="xpromo-banner"]
+reddit.com##.XPromoPopup
+
+! Login/signup prompts
+reddit.com##[data-testid="login-prompt"]
+reddit.com##.login-required-overlay
+reddit.com##[data-testid="blocking-modal"]
+
+! Avatar shop prompts
+reddit.com##[data-testid="avatar-shop-banner"]
+reddit.com##.avatar-upsell
+
+! Community recommendations
+reddit.com##[data-testid="community-recommendations"]
+reddit.com##.recommended-communities
+
+! Chat suggestions
+reddit.com##[data-testid="chat-suggestions"]
+
+! Old Reddit promoted posts
+old.reddit.com##.promoted
+old.reddit.com##.organic-listing .promoted .usertext
+
+! Old Reddit sidebar ads
+old.reddit.com##.ad-container
+old.reddit.com##.sponsorshipbox
+old.reddit.com##[id*="siteTable_organic"]
+
+! Generic Reddit ad selectors
+reddit.com##[class*="promoted"]:not([class*="non-promoted"])
+reddit.com##[id*="promoted"]
+reddit.com##[data-*="promoted"]
+reddit.com##[href*="ads.reddit.com"]
+
+! Remove elements with ad-related text content
+reddit.com##*:has-text(/^promoted$/i)
+reddit.com##*:has-text(/^sponsored$/i)
+reddit.com##*:has-text(/^advertisement$/i)
+
+! Block ad-related scripts and resources
+||ads.reddit.com^
+||events.reddit.com^$script
+||reddit.com/api/v1/gold/gild^$xmlhttprequest
+||reddit.com/api/click^$xmlhttprequest
+
+! ========================================
+! GENERAL WEB ANNOYANCES
+! ========================================
+
+! Cookie consent banners
+##[id*="cookie"]:not([id*="facebook"])
+##[class*="cookie"]:not([class*="facebook"])
+##[id*="consent"]
+##[class*="consent"]
+##[class*="gdpr"]
+##[id*="gdpr"]
+##.cookie-banner
+##.consent-banner
+##[data-testid*="cookie"]
+
+! Chat widgets and support bubbles
+##[class*="support-widget"]
+##[id*="intercom"]
+##[class*="intercom"]
+##[id*="zendesk"]
+##[class*="zendesk"]
+##[class*="chat-bubble"]
+##[class*="help-widget"]
+
+! Social media share widgets
+##[class*="social-share"]
+##[class*="share-buttons"]
+##[id*="social-share"]
+##[class*="addthis"]
+##[class*="sharethis"]
+
+! App download prompts
+##[class*="app-banner"]
+##[id*="app-banner"]
+##[class*="mobile-app"]
+##[class*="download-app"]
+##[data-testid*="app-banner"]
+
+! Notification permission prompts
+##[class*="notification-prompt"]
+##[class*="push-notification"]
+##[id*="notification-permission"]
+
+! Rating and review prompts
+##[class*="rating-prompt"]
+##[class*="review-prompt"]
+##[id*="rating-modal"]
+##[class*="feedback-modal"]
+
+! Privacy policy and terms popups
+##[class*="privacy-notice"]
+##[class*="terms-popup"]
+##[id*="privacy-banner"]
+
+! Video autoplay overlays
+##[class*="autoplay-overlay"]
+##[class*="video-overlay"]
+##[id*="video-prompt"]
+
+! Survey and feedback widgets
+##[class*="survey-widget"]
+##[class*="feedback-widget"]
+##[id*="survey-popup"]
+##[class*="user-survey"]
+
+! ========================================
+! PERFORMANCE & PRIVACY
+! ========================================
+
+! Block common ad servers
+||doubleclick.net^
+||googleadservices.com^
+||googlesyndication.com^
+||amazon-adsystem.com^
+||facebook.com/tr^
+||google-analytics.com^
+||googletagmanager.com^
+
+! ========================================
+! SITE SPECIFIC ANNOYANCES
+! ========================================
+
+! Twitter/X promoted content
+twitter.com##[data-testid="tweet"]:has([data-testid="promotedIndicator"])
+x.com##[data-testid="tweet"]:has([data-testid="promotedIndicator"])
+twitter.com##[data-testid="placementTracking"]
+x.com##[data-testid="placementTracking"]
+
+! LinkedIn promoted posts
+linkedin.com##[data-urn*="sponsoredUpdate"]
+linkedin.com##.feed-shared-update-v2:has([data-urn*="sponsoredUpdate"])
+
+! Facebook sponsored posts
+facebook.com##[data-pagelet="FeedUnit_0"]:has([data-testid="story-subtitle"]:has-text(/Sponsored/i))
+facebook.com##[role="article"]:has([aria-label*="Sponsored"])
+
+! Instagram sponsored posts
+instagram.com##article:has([data-testid="sponsored-post"])
+instagram.com##[data-testid="story-item"]:has([data-testid="sponsored-label"])
+
+! News sites - common annoyances
+##[class*="paywall"]
+##[class*="subscription-wall"]
+##[class*="premium-content"]
+##[class*="article-limit"]
+
+! ========================================
+! TARGETED GOOGLE AUTO-LOGIN POPUP BLOCKING
+! ========================================
+
+! Block Google One Tap auto-login scripts (the main culprits)
+||accounts.google.com/gsi/client$script,third-party
+||accounts.google.com/gsi/button$script,third-party
+
+! Block Google One Tap auto-appearing elements (specific to auto-login)
+##div[data-g-one-tap]
+##div[id^="g_id_onload"]
+##div[class*="g_id_signin"]
+##div[jsname="V68bde"]
+
+! Block auto-credential picker overlays (not user-initiated ones)
+##div[id*="credential_picker_container"]:not(:hover)
+##div[class*="credential_picker"]:not([role="button"])
+
+! Block Google Smart Lock auto-prompts
+##div[data-smartlock-enabled="true"]
+##div[class*="smartlock-prompt"]
+
+! Block specific auto-appearing Google auth containers
+##div[data-client-id][data-auto_prompt="true"]
+##div[data-client-id][data-callback]:not([data-theme])
+
+! Block auto-prompting Google signin iframes (not embedded buttons)
+##iframe[src*="accounts.google.com/gsi"]:not([width])
+
+! Block Google account chooser when it auto-appears
+##div[data-account-chooser-dialog][style*="display: block"]
+
+! Block specific intrusive Google auth iframes
+##iframe[src*="accounts.google.com/gsi"]
