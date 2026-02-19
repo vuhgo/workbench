@@ -1,48 +1,49 @@
-<h3 align="center">Workbench</h1>
-<!-- <h3 align="center">Exploring the world and questioning everything</h3> -->
-<p align="center">
-  A monorepo that holds all of vuhgo's open source projects . Bootstrapped with Turborepo.
-</p>
+# Workbench
 
-## What's inside?
+A monorepo for vuhgo's projects, managed with [Turborepo](https://turbo.build/) and [pnpm](https://pnpm.io).
 
-This turborepo uses [pnpm](https://pnpm.io) as a packages manager. It includes the following packages/apps:
+## Structure
 
-### Apps and Packages
+### Projects
 
-- `notifications`: an electron app built to serve as a notification center for my different services
-- `web`: a nextjs app to serve as my personal site
-- `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`) as well as `terminal`, and `vscode` configurations
-- `fig`: custom plugins for `fig.io`
-- `tools`: a toolkit used throughout the monorepo including the `cli`
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-- `tools`: `cli`s used throughout the monorepo
-- `ui`: a stub React component library shared by both web and docs applications
+- **`site`** — Personal website built with [Astro](https://astro.build/)
+- **`breaches`** — Password breach checker (React + Express) using the Have I Been Pwned API
+- **`tali`** — Sub-monorepo with its own apps, packages, and services
+- **`terminal-otap`** — CLI tool for generating OTAP QR codes in the terminal
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Packages
 
-### Utilities
+- **`config`** — Shared ESLint presets, dotfiles, and editor configurations
+- **`i18n`** — Internationalization setup using i18next + React
+- **`tools`** — CLI toolkit (`hugios`) with sitemap building, Todoist/Cloudflare integrations, and other utilities
 
-This turborepo has some additional tools already setup for you:
+### Other
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- **`adguard`** — Custom AdGuard DNS filtering rules
+- **`docs`** — Reference docs (plugins, deployment)
+- **`workspaces`** — VS Code workspace files
 
 ## Setup
 
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-pnpm run build
+```sh
+pnpm install
 ```
 
 ### Develop
 
-To develop all apps and packages, run the following command:
-
-```
+```sh
 pnpm run dev
+```
+
+### Build
+
+```sh
+pnpm run build
+```
+
+### Lint & Format
+
+```sh
+pnpm run lint
+pnpm run format
 ```
