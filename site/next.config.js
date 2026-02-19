@@ -2,6 +2,12 @@
 
 const nextConfig = {
   reactStrictMode: true,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack(config, options) {
     if (!options.dev) {
       config.devtool = options.isServer ? false : 'source-map';

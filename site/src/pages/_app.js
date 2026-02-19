@@ -1,7 +1,6 @@
 import '@assets/main.css';
 import { ThemeProvider } from 'next-themes'
 import { HelmetProvider } from 'react-helmet-async';
-import '@hugios/i18n';
 
 function MyApp({ Component, pageProps }) {
   return (
