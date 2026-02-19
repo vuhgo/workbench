@@ -1,1 +1,3 @@
-module.exports = require("@hugios/config/eslint-preset");
+module.exports = {
+  extends: ["next/core-web-vitals"],
+};

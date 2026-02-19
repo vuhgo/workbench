@@ -3,4 +3,5 @@ packages:
   - "packages/**"
   - "playground/**"
   - "services/**"
+  - "site"
   - "tools"
