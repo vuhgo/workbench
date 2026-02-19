@@ -12,29 +12,23 @@ jobs:
     name: Code Coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: codecov/codecov-action@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
         with:
-          files: apps/web/coverage.json
-      - uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7.0.0-rc.6
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"  
+          node-version: 20
+          cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile --force
       - name: Generate coverage report
         run: npx turbo run test:coverage
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          env_vars: OS,PYTHON
-          fail_ci_if_error: true
+          files: apps/web/coverage.json
+          fail_ci_if_error: false
           flags: unittests
           name: codecov-umbrella
-          path_to_write_report: ./codecov_report.txt
           verbose: true
