@@ -46,6 +46,58 @@ import "../styles/main.css";
   });
 
   // Bird SVG animation
+  // Color map: illustration colors by path index (after background removal)
+  // Derived from the geometric raven illustration's color regions
+  const BLACK = "#000000";
+  const CHARCOAL = "#1c2728"; // very dark teal
+  const TEAL_D = "#2c3c3d"; // dark teal
+  const TEAL_M = "#435354"; // muted teal/slate
+  const GRAY = "#d1d1d1"; // light gray
+  const ORANGE = "#c9713a"; // warm orange-brown
+  const GOLD = "#c9953e"; // golden amber
+  const RED = "#d2462f"; // red-orange
+
+  const colorMap: Record<number, string> = {
+    0: CHARCOAL, // main silhouette
+    1: TEAL_D, // wing
+    2: GOLD, // belly
+    3: GOLD, // belly
+    4: TEAL_M, // head panel
+    5: TEAL_D, // tail side
+    6: GOLD, // chest
+    7: CHARCOAL, // lower body
+    8: TEAL_M, // mid body
+    9: TEAL_D, // head side
+    10: GOLD, // lower chest
+    11: TEAL_D, // back
+    12: TEAL_M, // mid body
+    13: "#ffffff", // gap between feet
+    14: RED, // tail
+    15: TEAL_M, // neck
+    16: GOLD, // belly
+    17: ORANGE, // tail
+    18: TEAL_M, // head top
+    19: TEAL_D, // upper body
+    20: GOLD, // feet
+    21: RED, // beak
+    22: TEAL_D, // head side
+    23: GOLD, // chest
+    24: RED, // feet
+    25: RED, // beak tip
+    26: GOLD, // feet
+    27: RED, // feet
+    28: GOLD, // key/eye
+    29: TEAL_D, // body side
+    30: TEAL_M, // head
+    31: TEAL_D, // wing edge
+    32: ORANGE, // tail
+    33: RED, // feet
+    34: GOLD, // belly edge
+    35: GOLD, // belly edge
+    36: ORANGE, // tail lower
+    37: TEAL_D, // head edge
+  };
+
   fetch("/bird.svg")
     .then((res) => res.text())
     .then((svgText) => {
@@ -61,15 +113,69 @@ import "../styles/main.css";
       const paths = svg.querySelectorAll("path");
       if (paths.length > 0) paths[0].remove();
 
-      svg.querySelectorAll("path").forEach((path, i) => {
+      const allPaths = svg.querySelectorAll("path");
+      const totalPaths = allPaths.length;
+      const drawDuration = 2;
+      const drawStagger = 0.15;
+      const drawEnd = (totalPaths - 1) * drawStagger + drawDuration;
+
+      // Compute spatial bleed delay: center of bird bleeds first, edges last
+      const center = { x: 600, y: 400 };
+      const distances: number[] = [];
+      allPaths.forEach((path) => {
+        const t = path.getAttribute("transform") || "";
+        const m = t.match(/translate\(([^,]+),([^)]+)\)/);
+        const x = m ? parseFloat(m[1]) : 0;
+        const y = m ? parseFloat(m[2]) : 0;
+        distances.push(Math.sqrt((x - center.x) ** 2 + (y - center.y) ** 2));
+      });
+      const maxDist = Math.max(...distances);
+
+      // Build fill paths first, then set up animations
+      const fillPaths: SVGPathElement[] = [];
+
+      allPaths.forEach((path, i) => {
         const length = path.getTotalLength();
+        const fill = colorMap[i] || CHARCOAL;
+
+        // Create a fill-only clone (inserted behind the stroke path)
+        const fillPath = path.cloneNode(true) as SVGPathElement;
+        fillPath.setAttribute("stroke", "none");
+        fillPath.setAttribute("fill", fill);
+        fillPath.style.clipPath = "inset(0 0 100% 0)";
+        path.parentNode!.insertBefore(fillPath, path);
+        fillPaths.push(fillPath);
+
+        // Original path: stroke only
         path.setAttribute("stroke", "currentColor");
         path.setAttribute("fill", "none");
         path.setAttribute("stroke-width", "1.5");
         path.style.strokeDasharray = `${length}`;
         path.style.strokeDashoffset = `${length}`;
-        path.style.animation = `draw 2s ease forwards ${i * 0.15}s`;
+
+        const drawDelay = i * drawStagger;
+        const bleedSpread = 3;
+        const normalizedDist = distances[i] / maxDist;
+        const fillDelay = drawEnd + 0.3 + normalizedDist * bleedSpread;
+        const strokeFadeDelay = fillDelay + 0.5;
+
+        path.style.animation = [
+          `draw ${drawDuration}s ease forwards ${drawDelay}s`,
+          `stroke-fade 1.5s ease forwards ${strokeFadeDelay}s`,
+        ].join(", ");
+
+        // Expand clip-path to reveal fill, creeping outward
+        setTimeout(() => {
+          fillPath.style.transition = "clip-path 2.5s ease-in";
+          fillPath.style.clipPath = "inset(0 0 0% 0)";
+        }, fillDelay * 1000);
       });
+
+      // Ramp SVG opacity up as fills bleed in
+      svg.style.transition = "opacity 3s ease";
+      setTimeout(() => {
+        svg.style.opacity = "0.75";
+      }, drawEnd * 1000);
 
       container.appendChild(svg);
     });
