@@ -130,5 +130,6 @@ body {
     width: auto;
     height: 60vh;
     height: 60dvh;
+    aspect-ratio: 1 / 1;
   }
 }
