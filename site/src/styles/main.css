@@ -110,6 +110,24 @@ body {
     }
 }
 
+@keyframes fill-in {
+    0% {
+        fill-opacity: 0;
+    }
+    40% {
+        fill-opacity: 0.15;
+    }
+    100% {
+        fill-opacity: 1;
+    }
+}
+
+@keyframes stroke-fade {
+    to {
+        stroke-opacity: 0;
+    }
+}
+
 /* Theme toggle button */
 .theme-toggle {
     background: none;
