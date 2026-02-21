@@ -133,7 +133,7 @@ import "../styles/main.css";
         const drawDelay = i * drawStagger;
         const bleedSpread = 3;
         const normalizedDist = distances[i] / maxDist;
-        const fillDelay = drawEnd + 0.3 + normalizedDist * bleedSpread;
+        const fillDelay = drawEnd + normalizedDist * bleedSpread;
         const strokeFadeDelay = fillDelay + 0.5;
 
         path.style.animation = [
@@ -148,11 +148,17 @@ import "../styles/main.css";
         }, fillDelay * 1000);
       });
 
-      // Ramp SVG opacity up as fills bleed in
-      svg.style.transition = "opacity 3s ease";
-      setTimeout(() => {
-        svg.style.opacity = "0.75";
-      }, drawEnd * 1000);
+      // Gradually increase opacity as more paths draw in
+      const minOpacity = 0.1;
+      const maxOpacity = 0.75;
+      allPaths.forEach((_, i) => {
+        const t = i * drawStagger;
+        const opacity = minOpacity + (maxOpacity - minOpacity) * ((i + 1) / totalPaths);
+        setTimeout(() => {
+          svg.style.transition = `opacity ${drawStagger * 2}s linear`;
+          svg.style.opacity = `${opacity}`;
+        }, t * 1000);
+      });
 
       container.appendChild(svg);
     });
