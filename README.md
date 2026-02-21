@@ -1,6 +1,6 @@
 # Workbench
 
-A monorepo for vuhgo's projects, managed with [Turborepo](https://turbo.build/) and [pnpm](https://pnpm.io).
+A monorepo for Hyugin's projects, managed with [Turborepo](https://turbo.build/) and [pnpm](https://pnpm.io).
 
 ## Structure
 
