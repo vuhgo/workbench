@@ -132,9 +132,6 @@ www.youtube.com###actions.ytd-watch-metadata ytd-button-renderer .yt-spec-button
 m.youtube.com##ytm-slim-video-action-bar-renderer button [class*="button-text-content"]:not(:has-text(/\d/))
 m.youtube.com##ytm-slim-video-action-bar-renderer ytm-button-renderer div[class$="icon"]:style(margin-right: -6px !important; margin-left: -6px !important;)
 
-! Hide chat window when viewing streams
-www.youtube.com###chat:remove()
-
 ! Hide View Products
 www.youtube.com##.ytp-suggested-action-badge-expanded
 
